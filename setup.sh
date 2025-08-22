@@ -1,13 +1,25 @@
 #!/bin/bash
 
-echo "Install curl if not installed"
-which curl &> /dev/null || sudo apt install curl
+# Make a backup for current configs
+mkdir ~/.config/dotfiles.bak
 
-mkdir -p ~/.themes/
-curl -L https://github.com/dracula/gtk/archive/master.zip > ~/.themes/gtk-master.zip
-unzip -q ~/.themes/gtk-master.zip -d ~/.themes/
-mv ~/.themes/gtk-master ~/.themes/Dracula 
-rm ~/.themes/gtk-master.zip
+mv ~/.config/hypr ~/.config/dotfiles.bak/hypr
+mv ~/.config/waybar ~/.config/dotfiles.bak/ºwaybar
+mv ~/.config/kitty ~/.config/dotfiles.bak/kitty
+mv ~/.config/wofi ~/.config/dotfiles.bak/wofi
+mv ~/.config/zed ~/.config/dotfiles.bak/zed
 
-gsettings set org.gnome.desktop.interface gtk-theme "Dracula"
-gsettings set org.gnome.desktop.wm.preferences theme "Dracula"
+ln -s /home/gruiz/dotfiles/.config/hypr /home/gruiz/.config/
+ln -s /home/gruiz/dotfiles/.config/waybar /home/gruiz/.config/
+ln -s /home/gruiz/dotfiles/.config/kitty /home/gruiz/.config/
+ln -s /home/gruiz/dotfiles/.config/wofi /home/gruiz/.config/
+ln -s /home/gruiz/dotfiles/.config/zed /home/gruiz/.config/
+
+# Install ohmyzsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Install Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Install NVM and NodeJS
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
